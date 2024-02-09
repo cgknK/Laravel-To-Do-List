@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description');
-            $table->integer('user_id')->;//tablo'dan memnun değilim nasıl değiştirebilirim
-            //$table->foreign('user_id')->references('id')->on('users');
+            //$table->integer('user_id')->;
+            $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('is_remember')->default(0);
             $table->dateTime('remember_date')->nullable();
             $table->timestamps();

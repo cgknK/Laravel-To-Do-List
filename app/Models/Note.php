@@ -23,7 +23,7 @@ class Note extends Model
         'user_id',
         'is_remember',
         'remember_date',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /*

@@ -20,8 +20,9 @@
                 <tr>
                     <th scope="row">{{$note->id}}</th>
                     <td>{{$note->title}}</td>
-                    <td style="width: 750px;word-wrap: break-word;">{{$note->description}}</td>
-                    <td style="background-color: aqua">{{$note->user_id}}UserName</td>
+                    <!--td style="width: 750px;word-wrap: break-word;">{{$note->description}}</td-->
+                    <td>{{$note->description}}</td>
+                    <td>{{$note->user_id}}UserName</td>
                     <td>{{$note->is_remember}}</td>
                     <td>eksik</td>
                     <td><a href="{{route('note-s.show', $note->id)}}" type="button" class="btn btn-info">DoneShow</a> </td>
