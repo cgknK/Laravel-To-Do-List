@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('index');
 });
+*/
+
+//Notes
+Route::get('/', [\App\Http\Controllers\NotesController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,5 +36,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 //Yer uygunluğuna bak
-Route::resource('note', \App\Http\Controllers\NotesController::class);
-//Route::resource('note', NotesController::class);
+Route::resource('note-s', \App\Http\Controllers\NotesController::class);

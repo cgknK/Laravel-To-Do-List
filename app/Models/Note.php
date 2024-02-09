@@ -26,4 +26,10 @@ class Note extends Model
         'deleted_at'
     ];
 
+    /*
+    public function user()//id2name
+    {
+        return $this->belongsTo(User::class);
+    }
+    */
 }

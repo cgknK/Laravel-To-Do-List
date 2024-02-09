@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class NotesController extends Controller
@@ -11,7 +12,9 @@ class NotesController extends Controller
      */
     public function index()
     {
-        //
+        //sadece kendi notlarn görmeli
+        $one_user_notes = Note::all();
+        return view('index', compact('one_user_notes'));
     }
 
     /**
@@ -19,7 +22,8 @@ class NotesController extends Controller
      */
     public function create()
     {
-        //
+        //Buradaki hangi create???????S
+        return view("create");
     }
 
     /**
@@ -27,7 +31,10 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //hangi Note sınıfı ve nerde?????????
+        Note::create($request->all());
+        //dd(Note)
+        return redirect('index');
     }
 
     /**
@@ -35,7 +42,8 @@ class NotesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $note = Note::findOrFail($id);
+        return view('show', compact('note'));
     }
 
     /**
