@@ -1,3 +1,5 @@
+
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,8 +19,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <!--x-nav-link :href="route('note-s.index')" :active="request()->routeIs('note-s.index')" method="GET"-->
-                    <x-nav-link :href="route('note-s.index')" :active="request()->routeIs('note-s')">
+                    <x-nav-link :href="route('note-s.index')" :active="request()->routeIs('note-s.index')" method="GET">
                         {{ __('Notes/ToDo List') }}
                     </x-nav-link>
                 </div>
@@ -49,7 +50,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -95,7 +96,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

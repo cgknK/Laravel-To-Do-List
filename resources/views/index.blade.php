@@ -5,7 +5,7 @@
     <a href="{{route("note-s.create")}}" type="button" class="btn btn-success">Add Note</a>
     <br>
 
-    <table class="table" style="width: 1550px;">
+    <table class="table" style="width: 100%;">
         <thead>
         <tr>
             <th scope="col">#id??ordered</th>
