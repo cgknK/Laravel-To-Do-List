@@ -51,7 +51,8 @@ class NotesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $note = Note::findOrFail($id);
+        return view('update', compact('note'));
     }
 
     /**
@@ -59,7 +60,11 @@ class NotesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //is_reminder da default olarak off yapma sorunu var fakat veritabanına karışmıyor
+        //sadece görsel bir sorun
+        $note = Note::findOrFail($id);
+        $note->update($request->all());
+        return redirect('/');
     }
 
     /**
@@ -67,6 +72,9 @@ class NotesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $note = Note::findOrFail($id);
+        //need warning notification
+        $note->delete();
+        return redirect('/');
     }
 }

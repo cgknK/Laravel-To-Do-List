@@ -26,8 +26,16 @@
                     <td>{{$note->is_remember}}</td>
                     <td>eksik</td>
                     <td><a href="{{route('note-s.show', $note->id)}}" type="button" class="btn btn-info">DoneShow</a> </td>
-                    <td><a href="" type="button" class="btn btn-warning">Edit</a> </td>
-                    <td><a href="" type="button" class="btn btn-danger">Del</a> </td>
+                    <td><a href="{{route('note-s.edit', $note->id)}}" type="button" class="btn btn-warning">Edit</a> </td>
+                    <td>
+                        <!-- note-s nerden ch -->
+                        <form action="{{route('note-s.destroy', $note->id)}}" method="POST">
+                            <!-- bunlar dekaratör mü -->
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn btn-danger">Del</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
 
