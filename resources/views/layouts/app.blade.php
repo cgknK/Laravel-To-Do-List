@@ -8,8 +8,11 @@
         <title>NOTES|SETON</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
+        <!-- xxx -->
+        <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"-->
+        <!-- xxx -->
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <!--title>{{ config('app.name', 'Laravel') }}</title-->
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -36,5 +39,10 @@
                 {{ $slot }}
             </main>
         </div>
+
+    <!-- xxx -->
+        <!--script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script-->
+        <!--script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script-->
+    <!-- xxx -->
     </body>
 </html>

@@ -20,16 +20,16 @@ class Note extends Model
     protected $fillable = [
         'title',
         'description',
-        'user_id',
+        'note_user_id',
         'is_remember',
         'remember_date',
         'deleted_at',
     ];
 
-    /*
-    public function user()//id2name
+
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'note_user_id');
     }
-    */
+
 }

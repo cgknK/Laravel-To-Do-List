@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
 {
@@ -12,9 +13,15 @@ class NotesController extends Controller
      */
     public function index()
     {
-        //sadece kendi notlarn görmeli
-        $one_user_notes = Note::all();
+        $one_user_notes = Note::whereNull('deleted_at')
+            ->where('note_user_id', Auth::id())->with('user')
+            ->get();
+
         return view('index', compact('one_user_notes'));
+
+        //sadece kendi notlarn görmeli
+        //$one_user_notes = Note::all();
+        //return view('index', compact('one_user_notes'));
     }
 
     /**
@@ -31,10 +38,18 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge(['note_user_id' => Auth::id()]);
+        if ($request->input('is_remember') ==  "on") {
+            $request->merge(['is_remember' => 1]);
+        }
+        else {
+            $request->merge(['is_remember' => 0]);
+        }
+        //dd($request);
         //hangi Note sınıfı ve nerde?????????
         Note::create($request->all());
         //dd(Note)
-        return redirect('index');
+        return redirect('/');
     }
 
     /**
@@ -74,7 +89,8 @@ class NotesController extends Controller
     {
         $note = Note::findOrFail($id);
         //need warning notification
-        $note->delete();
+        //$note->delete();
+        $note->update(['deleted_at' => date('Y-m-d H:i:s')]);
         return redirect('/');
     }
 }

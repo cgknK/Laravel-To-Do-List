@@ -1,5 +1,7 @@
 @extends('mylayout')
 @section('content')
+
+    <br>
     <div class="container">
         <form action="{{route("note-s.store")}}" method="POST">
             <!-- post belirtilmeseydi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
@@ -12,13 +14,16 @@
                 <label class="form-label">Desc...</label>
                 <input type="text" class="form-control" name="description">
             </div>
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="is_remember" name="is_remember" value="1" {{ old('is_remember') ? 'checked="checked"' : '' }}>
-                <!-- input type="checkbox" name="is_remember" value="1" {{ old('is_remember') ? 'checked="checked"' : '' }}/ -->
-                <label class="custom-control-label" name="is_remember label" for="is_remember">Reminder</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="is_remember">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Setting Alarm</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <input type="reset" value="Reset" />
+            <div class="mb-3">
+                <label class="form-label">Date&Time</label>
+                <input type="datetime-local" class="form-control" name="remember_date">
+            </div>
+            <button type="submit" class="btn btn-primary bg-primary">Submit</button>
+            <input type="reset" value="Reset" class="btn btn-danger bg-danger"/>
         </form>
     </div>
 @endsection
