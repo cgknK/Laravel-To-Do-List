@@ -91,8 +91,19 @@ class NotesController extends Controller
     {
         //is_reminder da default olarak off yapma sorunu var fakat veritabanına karışmıyor
         //sadece görsel bir sorun
+
+        if ($request->input('is_remember') ==  "on") {
+            $request->merge(['is_remember' => 1]);
+        }
+        else {
+            $request->merge(['is_remember' => 0]);
+        }
+
         $note = Note::findOrFail($id);
         $note->update($request->all());
+
+        session()->flash('successU', 'Succesfull Update');
+
         return redirect('/');
     }
 
@@ -106,8 +117,10 @@ class NotesController extends Controller
         //$note->delete();
         $note->update(['deleted_at' => date('Y-m-d H:i:s')]);
 
-        session()->flash('success', 'Succesfull Destroy');
+        //birini kullanmak yeterli, best practice araştır
+        session()->flash('successD', 'Succesfull Destroy');
+        $deleted_note = $note;
 
-        return redirect('/');
+        return redirect('/')->with('deleted_note', $deleted_note);
     }
 }
