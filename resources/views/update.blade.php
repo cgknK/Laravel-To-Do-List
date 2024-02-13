@@ -13,13 +13,29 @@
                 <label class="form-label">Desc...</label>
                 <input type="text" class="form-control" name="description" value="{{$note->description}}">
             </div>
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="is_remember" name="is_remember" value="1" {{ old('is_remember') ? 'checked="checked"' : '' }}>
-                <!-- input type="checkbox" name="is_remember" value="1" {{ old('is_remember') ? 'checked="checked"' : '' }}/ -->
-                <label class="custom-control-label" name="is_remember label" for="is_remember">Reminder</label>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="remember" value="{{$note->user->name }}" readonly>
             </div>
-            <button type="submit" class="btn btn-primary">SubmitGüncelle</button>
-            <input type="reset" value="Reset" />
+            <div class="mb-3">
+                <label class="form-label">Reminder</label>
+                <input type="text" class="form-control" name="remember" value="{{$note->is_remember}}">
+            </div>
+            @if($note->is_remember === 1)
+                <div class="mb-3">
+                    <label class="form-label">Remember Date</label>
+                    <input type="text" class="form-control" name="remember_date" value="{{$note->remember_date}}">
+                </div>
+            @endif
+            @if($note->deleted_at != null)
+                <div class="mb-3">
+                    <label class="form-label">Done timestamp</label>
+                    <input type="text" class="form-control" name="delete" value="{{$note->deleted_at}}" readonly>
+                </div>
+            @endif
+            <button type="submit" class="btn btn-warning bg-warning">Update</button>
+            <button type="reset" class="btn btn-info bg-info">Reset(LastCheckPoint)</button>
+            <!-- input type="reset" value="Reset" / -->
         </form>
     </div>
 @endsection

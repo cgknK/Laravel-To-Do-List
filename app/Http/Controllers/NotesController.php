@@ -11,6 +11,8 @@ class NotesController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    //validate() eklenecek
     public function index()
     {
         $one_user_notes = Note::whereNull('deleted_at')
@@ -46,9 +48,7 @@ class NotesController extends Controller
             $request->merge(['is_remember' => 0]);
         }
         //dd($request);
-        //hangi Note sınıfı ve nerde?????????
         Note::create($request->all());
-        //dd(Note)
         return redirect('/');
     }
 
