@@ -19,6 +19,8 @@ class NotesController extends Controller
             ->where('note_user_id', Auth::id())->with('user')
             ->get();
 
+        //session()->put('welcome', true);
+
         return view('index', compact('one_user_notes'));
 
         //sadece kendi notlarn görmeli
@@ -47,8 +49,20 @@ class NotesController extends Controller
         else {
             $request->merge(['is_remember' => 0]);
         }
+
+        /*
+        $validated = request()->validate([
+            'title' => 'required_without:description',
+            'description' => 'required_without:title|email',
+        ]);
+        */
+
         //dd($request);
         Note::create($request->all());
+        //Note::create($validated);
+
+        session()->flash('successS', 'Succesfull Store');
+
         return redirect('/');
     }
 
@@ -91,6 +105,9 @@ class NotesController extends Controller
         //need warning notification
         //$note->delete();
         $note->update(['deleted_at' => date('Y-m-d H:i:s')]);
+
+        session()->flash('success', 'Succesfull Destroy');
+
         return redirect('/');
     }
 }

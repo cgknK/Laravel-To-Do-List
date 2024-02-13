@@ -1,6 +1,35 @@
 @extends('mylayout')<!-- mylayout or layout -->
 @section('content')
 
+    {{--
+    @php
+        use Illuminate\Support\Arr;
+        $firstElement = Arr::first($one_user_notes);"
+    @endphp
+    --}}
+
+    {{--
+    @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @elseif(1)
+        <div class="alert alert-success">
+            Welcome, {{$firstElement->user->name}}
+        </div>
+    @endif
+    --}}
+
+
+    @if (session()->has('successS'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session()->get('success') }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    @endif
+
     <br>
     <div class="container">
         <a href="{{route("note-s.create")}}" type="button" class="btn btn-success bg-success">Add Note</a>
@@ -14,6 +43,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">User Name</th>
                 <th scope="col">Reminder State</th>
+                <th scope="col">Time Info</th>
             </tr>
             </thead>
             <tbody>
@@ -24,7 +54,11 @@
                     <!--td style="width: 750px;word-wrap: break-word;">{{$note->description}}</td-->
                     <td>{{$note->description}}</td>
                     <td>{{$note->user->name}}</td>
-                    <td>{{$note->is_remember}}</td>
+                    @if($note->is_remember == 0)
+                        <td>{{-- $note->is_remember --}}Doesn't exist</td>
+                    @else
+                        <td>{{$note->remember_date}}</td>
+                    @endif
                     <td>eksik</td>
                     <td><a href="{{route('note-s.show', $note->id)}}" type="button" class="btn btn-info bg-info">Show&Done</a> </td>
                     <td><a href="{{route('note-s.edit', $note->id)}}" type="button" class="btn btn-warning bg-warning">Edit</a> </td>
@@ -52,5 +86,6 @@
         </p>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @endsection

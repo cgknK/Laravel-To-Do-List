@@ -10,7 +10,7 @@
                 <input type="text" class="form-control" name="name" value="{{$note->title}}" readonly>
             </div>
             <div class="mb-3">
-                <label class="form-label">Desc...</label>
+                <label class="form-label">Description</label>
                 <input type="text" class="form-control" name="desc" value="{{$note->description}}" readonly>
             </div>
             <div class="mb-3">

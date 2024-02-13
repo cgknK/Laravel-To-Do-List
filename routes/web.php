@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::get('/', [\App\Http\Controllers\NotesController::class, 'index']);
 
 Route::get('/dashboard', function () {
+    session()->put('welcome', true);
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
