@@ -118,7 +118,7 @@ class NotesController extends Controller
         $note->update(['deleted_at' => date('Y-m-d H:i:s')]);
 
         //birini kullanmak yeterli, best practice araştır
-        session()->flash('successD', 'Succesfull Destroy');
+        session()->flash('successD', "Succesfull Destroy: $note->title");
         $deleted_note = $note;
 
         return redirect('/note-s')->with('deleted_note', $deleted_note);

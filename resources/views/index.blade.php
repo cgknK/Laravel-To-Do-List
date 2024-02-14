@@ -99,17 +99,18 @@
     <div class="container">
         <p>
             <br>
-            index de delete sonrası hide da close butonu yanda değil<br>
             sessions neden yok but work<br>
-            set routes/web<br>
-            if not auth->go auth<br>
+            index de delete sonrası hide da close butonu yanda değil<br>
+            <br>
             validation+double??<br>
             data table(order by reminder ext.)<br>
             filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()<br>
             prepared statements<br>
-            font, size, theme farklarını düzelt<br>
             alarm geçiş zamana kurulmaya çalışılırsa uyar<br>
-            edit ile hiç birşey değiştirilmeden update edildiğinde farklı bir bildirim ver ve veritabanını yorma<br>
+            <br
+            if not auth->go auth | token?<br>
+            font, size, theme farklarını düzelt<br>
+            edit ile hiç birşey değiştirilmeden update edildiğinde farklı bir bildirim ver ve veritabanına gitme<br>
         </p>
     </div>
 
