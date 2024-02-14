@@ -102,6 +102,8 @@
             sessions neden yok but work<br>
             index de delete sonrası hide da close butonu yanda değil<br>
             <br>
+            Mail<br>
+            socket (io)<br>
             validation+double??<br>
             data table(order by reminder ext.)<br>
             filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()<br>
@@ -110,6 +112,7 @@
             <br
             if not auth->go auth | token?<br>
             font, size, theme farklarını düzelt<br>
+            loout->welcome yapılacak<br>
             edit ile hiç birşey değiştirilmeden update edildiğinde farklı bir bildirim ver ve veritabanına gitme<br>
         </p>
     </div>
