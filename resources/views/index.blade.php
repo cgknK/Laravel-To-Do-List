@@ -97,6 +97,13 @@
     </div>
 
     <div class="container">
+        <form action="http://localhost:8000/send-welcome-email" method="POST">
+            <button type="submit" class="btn btn-secondary bg-secondary">Test e-mail</button>
+        </form>
+    </div>
+    <a href="http://localhost:8000/send-welcome-email" class="btn btn-secondary bg-secondary">Test e-mail get</a>
+
+    <div class="container">
         <p>
             <br>
             sessions neden yok but work<br>
@@ -104,6 +111,7 @@
             <br>
             Mail<br>
             socket (io)<br>
+            .env ile nasıl şifreli mail ayarlanıp şifresiz sunucuya mail atılıyor<br>
             validation+double??<br>
             data table(order by reminder ext.)<br>
             filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()<br>

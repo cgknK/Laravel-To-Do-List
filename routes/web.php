@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\mailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,17 @@ require __DIR__.'/auth.php';
 
 //Yer uygunluğuna bak
 Route::resource('note-s', \App\Http\Controllers\NotesController::class);
+/*
+Route::get('/note-s', [NotesController::class, 'index'])->name('note-s.index');
+Route::get('/note-s/create', [NotesController::class, 'create'])->name('note-s.create');
+Route::post('/note-s', [NotesController::class, 'store'])->name('note-s.store');
+Route::get('/note-s/{note}', [NotesController::class, 'show'])->name('note-s.show');
+Route::get('/note-s/{note}/edit', [NotesController::class, 'edit'])->name('note-s.edit');
+Route::put('/note-s/{note}', [NotesController::class, 'update'])->name('note-s.update');
+Route::patch('/note-s/{note}', [NotesController::class, 'update']);
+Route::delete('/note-s/{note}', [NotesController::class, 'destroy'])->name('note-s.destroy');
+ */
+
+Route::get('e-mail', 'ckk.devtest@gmail.com');
+Route::get('/send-welcome-email', [mailController::class, 'send'])->name('send-welcome-email.get');
+Route::post('/send-welcome-email', [mailController::class, 'send'])->name('send-welcome-email.post');
