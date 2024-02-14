@@ -21,7 +21,10 @@ Route::get('/', function () {
 */
 
 //Notes
-Route::get('/', [\App\Http\Controllers\NotesController::class, 'index']);
+//Route::get('/', [\App\Http\Controllers\NotesController::class, 'welcome']);
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/dashboard', function () {
     session()->put('welcome', true);

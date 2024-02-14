@@ -19,7 +19,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Reminder</label>
-                <input type="text" class="form-control" name="remember" value="{{$note->is_remember}}" readonly>
+                <input type="text" class="form-control" name="remember" value="{{$note->is_remember ? "On" : "Off"}}" readonly>
             </div>
             @if($note->is_remember === 1)
                 <div class="mb-3">

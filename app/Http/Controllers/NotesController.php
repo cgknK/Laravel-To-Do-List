@@ -61,9 +61,9 @@ class NotesController extends Controller
         Note::create($request->all());
         //Note::create($validated);
 
-        session()->flash('successS', 'Succesfull Store');
+        session()->flash('successS', "Succesfull Store: $request->title");
 
-        return redirect('/');
+        return redirect('/note-s');
     }
 
     /**
@@ -102,9 +102,9 @@ class NotesController extends Controller
         $note = Note::findOrFail($id);
         $note->update($request->all());
 
-        session()->flash('successU', 'Succesfull Update');
+        session()->flash('successU', "Succesfull Update: $request->title");
 
-        return redirect('/');
+        return redirect('/note-s');
     }
 
     /**
@@ -121,6 +121,6 @@ class NotesController extends Controller
         session()->flash('successD', 'Succesfull Destroy');
         $deleted_note = $note;
 
-        return redirect('/')->with('deleted_note', $deleted_note);
+        return redirect('/note-s')->with('deleted_note', $deleted_note);
     }
 }

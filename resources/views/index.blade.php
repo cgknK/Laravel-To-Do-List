@@ -1,29 +1,11 @@
 @extends('mylayout')<!-- mylayout or layout -->
 @section('content')
 
-    {{--
-    @php
-        use Illuminate\Support\Arr;
-        $firstElement = Arr::first($one_user_notes);"
-    @endphp
-    --}}
-
-    {{--
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @elseif(1)
-        <div class="alert alert-success">
-            Welcome, {{$firstElement->user->name}}
-        </div>
-    @endif
-    --}}
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @if (session()->has('successS'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session()->get('successS') }}
+            {{ session()->get('successS')}}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -39,23 +21,25 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session()->get('successD') }}<br>
             <span id="more-content" style="display: none;">{{ session('deleted_note') }}</span>
-            <button id="more-button" type="button" class="btn btn-info">More</button>
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            <button id="more-button" type="button" class="btn btn-info bg-info mt-3">More...</button>
+            <!--button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             {{ session('deleted_note') }}...Add-More/HideButton
-            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+            </button-->
+            <button id="close_button" type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
         </div>
-
         <script>
             $(document).ready(function(){
                 $("#more-button").click(function(){
                     $("#more-content").toggle();
                     if($("#more-content").is(":visible")){
-                        $("#more-button").text("Hide");
+                        $("#more-button").text("<Hide");
+                        $("#more-button").addClass("d-block");
                     }else{
-                        $("#more-button").text("More");
+                        $("#more-button").text("More...");
+                        $("#more-button").removeClass("d-block");
                     }
                 });
             });
@@ -66,7 +50,7 @@
     <div class="container">
         <a href="{{route("note-s.create")}}" type="button" class="btn btn-success bg-success">Add Note</a>
         <br>
-
+        <br>
         <table class="table" style="width: 100%;">
             <thead>
             <tr>
@@ -115,19 +99,21 @@
     <div class="container">
         <p>
             <br>
-            sessions neden yok but work
-            if not auth->go auth
-            validation+double??
-            Del(Done) bu safyada,
-            Hard del showda?
-            data table(order by reminder ext.)
-            filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()
-            prepared statements
-            font, size, theme farklarını düzelt
-
+            index de delete sonrası hide da close butonu yanda değil<br>
+            sessions neden yok but work<br>
+            set routes/web<br>
+            if not auth->go auth<br>
+            validation+double??<br>
+            data table(order by reminder ext.)<br>
+            filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()<br>
+            prepared statements<br>
+            font, size, theme farklarını düzelt<br>
+            alarm geçiş zamana kurulmaya çalışılırsa uyar<br>
+            edit ile hiç birşey değiştirilmeden update edildiğinde farklı bir bildirim ver ve veritabanını yorma<br>
         </p>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script-->
 
 @endsection
