@@ -9,29 +9,41 @@ use Illuminate\Support\Facades\Auth;
 
 class mailController extends Controller
 {
-    public function send(): string
+    public function send(/*string $note_id*/)//parametreyi comentlemeden yapmaya çalış
     {
-        if(1) {
-            $title = 'Welcome to the laracoding.com example email Controller';
-            $body = 'Thank you for participating! Controller';
+        if(0) {
+            $name = $note_id->user->name;
+            $email = $note_id->user->email;
 
-            $email = $this->getEmail();
+            //$name = Auth::user()->name;
+            $title = 'xNotu Alarm: DeadlineTarih';
+            $body = "Hello Dear $name\n\nYour notesTitle alarm...\nLink\n\nBest,\nAppName";
+
+            //$email = $this->getEmail();
+
+
+
             Mail::to("$email")->send(new WelcomeMail($title, $body));
 
-            return "Email sent successfully!";
+            return view('mail', compact('title', 'body'));
         }
         else {
-            //
+            $title = 'xNotu Alarm: DeadlineTime';
+            $body = "Hakan Bey Merhaba, klzvcgkn@gmail.com.\nHello Dear \$name,\n\nYour notesTitle alarm...\nLink\n\nBest,\nAppName";
+            $email = "hakank.sert@gmail.com";
+            Mail::to("$email")->send(new WelcomeMail($title, $body));
+            return view('mail', compact('title', 'body'));
         }
     }
 
     public function getEmail()
     {
-        $user = Auth::user();
-        //
-        $this_user = User::findOrFail($id);
-        $e_mail = $user->email;
-
-        return $e_mail;
+        $email = Auth::user()->email;
+        //$user2 = Auth::getUser();
+        //$user3 = Auth::user()->getAuthIdentifierName();
+        //$user4 = Auth::getUser()->getAuthIdentifierName();
+        //dd($user);
+        //$this_user = User::findOrFail($id);
+        return $email;
     }
 }

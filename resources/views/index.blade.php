@@ -97,11 +97,8 @@
     </div>
 
     <div class="container">
-        <form action="http://localhost:8000/send-welcome-email" method="POST">
-            <button type="submit" class="btn btn-secondary bg-secondary">Test e-mail</button>
-        </form>
+        <a href="{{ route('email.send')  }}" class="btn btn-secondary bg-secondary">Test e-mail get</a>
     </div>
-    <a href="http://localhost:8000/send-welcome-email" class="btn btn-secondary bg-secondary">Test e-mail get</a>
 
     <div class="container">
         <p>
@@ -114,9 +111,11 @@
             .env ile nasıl şifreli mail ayarlanıp şifresiz sunucuya mail atılıyor<br>
             validation+double??<br>
             data table(order by reminder ext.)<br>
+            <!-- geri al sayacı -->
             filter_input(), filter_var(), htmlspecialchars(), mysqli_real_escape_string()<br>
             prepared statements<br>
             alarm geçiş zamana kurulmaya çalışılırsa uyar<br>
+            parametreyi comentlemeden yapmaya çalış<br>
             <br
             if not auth->go auth | token?<br>
             font, size, theme farklarını düzelt<br>

@@ -53,6 +53,6 @@ Route::patch('/note-s/{note}', [NotesController::class, 'update']);
 Route::delete('/note-s/{note}', [NotesController::class, 'destroy'])->name('note-s.destroy');
  */
 
-Route::get('e-mail', 'ckk.devtest@gmail.com');
-Route::get('/send-welcome-email', [mailController::class, 'send'])->name('send-welcome-email.get');
-Route::post('/send-welcome-email', [mailController::class, 'send'])->name('send-welcome-email.post');
+//Route::get('e-mail', 'ckk.devtest@gmail.com');
+Route::get('/send-welcome-email', [mailController::class, 'send'])->name('email.send');
+//Route::post('/send-email', [mailController::class, 'send'])->name('email.post');

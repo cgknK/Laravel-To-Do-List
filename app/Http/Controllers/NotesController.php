@@ -123,4 +123,11 @@ class NotesController extends Controller
 
         return redirect('/note-s')->with('deleted_note', $deleted_note);
     }
+
+    public function isExpired()
+    {
+        return $this->deadline < now();
+    }
+
+
 }
