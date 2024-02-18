@@ -21,6 +21,9 @@ class NotesController extends Controller
 
         //session()->put('welcome', true);
 
+        //$rememberDate = new DateTime($note->remember_date);
+        //$overdue = $rememberDate < new DateTime();
+
         return view('index', compact('one_user_notes'));
 
         //sadece kendi notlarn görmeli
@@ -124,10 +127,10 @@ class NotesController extends Controller
         return redirect('/note-s')->with('deleted_note', $deleted_note);
     }
 
+    /*
     public function isExpired()
     {
         return $this->deadline < now();
     }
-
-
+    */
 }

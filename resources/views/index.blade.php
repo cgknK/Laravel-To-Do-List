@@ -1,7 +1,22 @@
 @extends('mylayout')<!-- mylayout or layout -->
 @section('content')
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Kullanıcının yerel saatini al
+        var year = new Date().getFullYear();
+        var month = new Date().getMonth();
+        var day = new Date().getDate();
+        var hour = new Date().getHours();
+        var minute = new Date().getMinutes();
+
+        // Kullanıcının yerel saatine göre bir UTC zaman damgası oluştur
+        var utcTime = Date.UTC(year, month, day, hour, minute);
+
+        // Bu UTC zaman damgasını new Date() fonksiyonuna parametre olarak ver
+        var localTime = new Date(utcTime).toISOString().substring(0, 16);
+
+        document.getElementById("joker_a").value = localTime;
+    </script>
 
     @if (session()->has('successS'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -65,7 +80,7 @@
             </thead>
             <tbody>
             @foreach($one_user_notes as $note)
-                <tr>
+                <tr class="{{ $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) > date('Y-m-d H:i') ? 'alert alert-danger' : '' }}">
                     <th scope="row">{{$note->id}}</th>
                     <td>{{$note->title}}</td>
                     <!--td style="width: 750px;word-wrap: break-word;">{{$note->description}}</td-->
@@ -74,10 +89,11 @@
                     @if($note->is_remember == 0)
                         <td>{{-- $note->is_remember --}}Doesn't exist</td>
                     @else
-                        <!--td>{{$note->remember_date}}</td-->
-                        <td>{{date('Y-m-d\TH:i', strtotime($note->remember_date))}}</td>
+                        <!--td>{{--$note->remember_date--}}</td-->
+                        <td>{{date('Y-m-d H:i', strtotime($note->remember_date))}}</td>
                     @endif
-                    <td>eksik</td>
+                    <td id="joker_a" value="Value {{-- date('Y-m-d H:i', now()) --}}">{{-- date('Y-m-d H:i', now()) --}}</td>
+                    <!--td class="time-info">{{-- $localTime --}}</--td-->
                     <td><a href="{{route('note-s.show', $note->id)}}" type="button" class="btn btn-info bg-info">Show&Done</a> </td>
                     <td><a href="{{route('note-s.edit', $note->id)}}" type="button" class="btn btn-warning bg-warning">Edit</a> </td>
                     <td>
@@ -121,6 +137,8 @@
             font, size, theme farklarını düzelt<br>
             loout->welcome yapılacak<br>
             edit ile hiç birşey değiştirilmeden update edildiğinde farklı bir bildirim ver ve veritabanına gitme<br>
+            create de reset now() vermiyor<br>
+            \n neden çalışmıyor mailde<br>
         </p>
     </div>
 

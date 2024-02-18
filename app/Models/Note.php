@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
+    //public $timestamps = false;
+
     protected $fillable = [
         'title',
         'description',
@@ -25,10 +27,11 @@ class Note extends Model
         'remember_date',
         'deleted_at',
     ];
-
+    //'notify_before',
 
     public function user()
     {
+        //return $this->belongsTo(User::class);
         return $this->belongsTo(User::class, 'note_user_id');
     }
 
