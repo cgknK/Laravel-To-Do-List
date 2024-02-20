@@ -45,6 +45,14 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'description.required' => 'min 1 chr, pls.',
+        ];
+
+        $request = $request->validate([
+            'description' => 'required|string|min:1',
+        ], $messages);
+
         $request->merge(['note_user_id' => Auth::id()]);
         if ($request->input('is_remember') ==  "on") {
             $request->merge(['is_remember' => 1]);

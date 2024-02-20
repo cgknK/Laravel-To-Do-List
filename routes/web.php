@@ -23,9 +23,11 @@ Route::get('/', function () {
 
 //Notes
 //Route::get('/', [\App\Http\Controllers\NotesController::class, 'welcome']);
+
 Route::get('/', function () {
-    return view('/auth/login');
-});
+    session()->put('welcome', true);
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', function () {
     session()->put('welcome', true);

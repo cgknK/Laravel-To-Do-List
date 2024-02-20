@@ -18,12 +18,13 @@ class mailController extends Controller
             $name = $note->user->name;
             $email = $note->user->email;
             $title_ = $note->title;
+            $description = $note->description;
             $deadlineTime = $note->remember_date;
 
             //$name = Auth::user()->name;
             $title = "$title_ Alarm: $deadlineTime";
             // backslashN yerine br mi koymak lazım
-            $body = "Hello Dear $name\n\nYour $title_ alarm...\nLink\n\nBest,\nAppName";
+            $body = "Hello Dear $name\n\nYour $title_ alarm...\n$description\nLink\n\nBest,\nAppName";
 
             //$email = $this->getEmail();
 

@@ -32,11 +32,14 @@ class NotesDeadline extends Command
         $now = Carbon::now('Europe/Istanbul')->format('Y-m-d H:i:s');
         $nowAddOne = Carbon::now('Europe/Istanbul')->addMinutes(1)->format('Y-m-d H:i:s');
 
-        $notes = Note::where('is_remember', 1)->where('deleted_at', null)->whereBetween('remember_date', [$now, $nowAddOne])->get();
+        $notes = Note::where('is_remember', 1)
+            ->where('deleted_at', null)
+            ->whereBetween('remember_date', [$now, $nowAddOne])
+            ->get();
         foreach ($notes as $note) {
             $mailController = new MailController; // obje geri silindimi bu scopedan çıkınca
             $mailController->send($note); // veya her döngü adımında
-            $note->save();
+            //$note->save();
         }
     }
 }
