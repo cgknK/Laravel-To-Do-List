@@ -1,7 +1,7 @@
 @extends('mylayout')
 @section('content')
     <div class="container">
-        <form action="{{route("note-s.update", $note->id)}}" method="POST">
+        <form action="{{route("notes.update", $note->id)}}" method="POST">
             <!-- post belirtilmeseydi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
             @csrf
             @method('PUT')

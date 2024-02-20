@@ -63,42 +63,63 @@
 
     <br>
     <div class="container">
-        <a href="{{route("note-s.create")}}" type="button" class="btn btn-success bg-success">Add Note</a>
+        <a href="{{route("notes.create")}}" type="button" class="btn btn-success bg-success">Add Note</a>
         <br>
         <br>
         <table class="table" style="width: 100%;">
             <thead>
             <tr>
-                <th scope="col">No</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">User Name</th>
-                <th scope="col">Reminder State</th>
-                <th scope="col">Time Info</th>
-                <th scope="col" colspan="3" style="text-align: center;">Quick Buttons</th>
+                <th class="col-md-1" scope="col">No</th>
+                <th class="col-md-1" scope="col">Title</th>
+                <th class="col-md-3" scope="col">Description</th>
+                <th class="col-md-2" scope="col">User Name</th>
+                <th class="col-md-1" scope="col">Alarm</th>
+                <th class="col-md-2" scope="col">Reminder Time</th>
+                <th class="col-md-2" scope="col" colspan="4" style="text-align: center;">Actions</th>
+                <!-- bu neden colspan 3 değil de 4 de tam oturuyor -->
             </tr>
             </thead>
             <tbody>
             @foreach($one_user_notes as $note)
-                <tr class="{{ $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) > date('Y-m-d H:i') ? 'alert alert-danger' : '' }}">
+                <tr class="{{ $note->deleted_at == null && $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) >= date('Y-m-d H:i') ? 'alert alert-danger' : '' }}">
                     <th scope="row">{{$note->id}}</th>
                     <td>{{$note->title}}</td>
                     <!--td style="width: 750px;word-wrap: break-word;">{{$note->description}}</td-->
                     <td>{{$note->description}}</td>
                     <td>{{$note->user->name}}</td>
                     @if($note->is_remember == 0)
-                        <td>{{-- $note->is_remember --}}Doesn't exist</td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1" disabled>
+                                <label class="custom-control-label" for="customSwitch1"></label>
+                                <!-- Gizli alan ekleyin -->
+                                <input type="hidden" name="is_remember" value="off">
+                            </div>
+                        </td>
+                    @else
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked disabled>
+                                <label class="custom-control-label" for="customSwitch1"></label>
+                                <!-- Gizli alan ekleyin -->
+                                <input type="hidden" name="is_remember" value="{{ $note->is_remember }}">
+                            </div>
+                        </td>
+                    @endif
+
+                    @if($note->is_remember == 0)
+                        <td>{{-- $note->is_remember --}}-</td>
                     @else
                         <!--td>{{--$note->remember_date--}}</td-->
                         <td>{{date('Y-m-d H:i', strtotime($note->remember_date))}}</td>
                     @endif
                     <td id="joker_a" value="Value {{-- date('Y-m-d H:i', now()) --}}">{{-- date('Y-m-d H:i', now()) --}}</td>
                     <!--td class="time-info">{{-- $localTime --}}</--td-->
-                    <td><a href="{{route('note-s.show', $note->id)}}" type="button" class="btn btn-info bg-info">Show&Done</a> </td>
-                    <td><a href="{{route('note-s.edit', $note->id)}}" type="button" class="btn btn-warning bg-warning">Edit</a> </td>
+                    <td><a href="{{route('notes.show', $note->id)}}" type="button" class="btn btn-info bg-info">Show&Done</a> </td>
+                    <td><a href="{{route('notes.edit', $note->id)}}" type="button" class="btn btn-warning bg-warning">Edit</a> </td>
                     <td>
                         <!-- note-s nerden ch -->
-                        <form action="{{route('note-s.destroy', $note->id)}}" method="POST">
+                        <form action="{{route('notes.destroy', $note->id)}}" method="POST">
                             <!-- bunlar dekaratör mü -->
                             @csrf
                             @method("DELETE")
@@ -112,9 +133,9 @@
         </table>
     </div>
 
-    <div class="container">
+    <!--div class="container">
         <a href="{{ route('email.send')  }}" class="btn btn-secondary bg-secondary">Test e-mail get</a>
-    </div>
+    </div-->
 
     <div class="container">
         <p>

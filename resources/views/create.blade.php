@@ -3,7 +3,7 @@
 
     <br>
     <div class="container">
-        <form action="{{route("note-s.store")}}" method="POST">
+        <form action="{{route("notes.store")}}" method="POST">
             <!-- post belirtilmeseydi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
             @csrf
             <div class="mb-3">
@@ -49,64 +49,8 @@
                 });
             </script>
 
-
-            <!--div class="form-check form-switch" >
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="is_remember" style="cursor: pointer">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Alarm On/Off</label>
-            </div>
-            <div class="mb-3" id="secret-div" style="display: none;">
-                <label class="form-label">Alarm Date&Time</label>
-                <input type="datetime-local" class="form-control" name="remember_date" id="remember_date_input" value="">
-                <script>
-                    // Kullanıcının yerel saatini al
-                    var year = new Date().getFullYear();
-                    var month = new Date().getMonth();
-                    var day = new Date().getDate();
-                    var hour = new Date().getHours();
-                    var minute = new Date().getMinutes();
-
-                    // Kullanıcının yerel saatine göre bir UTC zaman damgası oluştur
-                    var utcTime = Date.UTC(year, month, day, hour, minute);
-
-                    // Bu UTC zaman damgasını new Date() fonksiyonuna parametre olarak ver
-                    var localTime = new Date(utcTime).toISOString().substring(0, 16);
-
-                    document.getElementById("remember_date_input").value = localTime;
-                </script>
-            </div>
-            <script>
-                var checkbox = document.getElementById("flexSwitchCheckDefault");
-                var div = document.getElementById("secret-div");
-                var input = document.getElementById("remember_date_input");
-
-                checkbox.addEventListener("change", function() {
-                    div.style.display = checkbox.checked ? "block" : "none";
-                    input.value = checkbox.checked ? localTime : "";
-                });
-            </script-->
-
-
-            <!--div class="form-check form-switch" >
-                <input onchange="toggleDiv()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="is_remember" style="cursor: pointer">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Alarm On/Off</label>
-            </div>
-                <div class="mb-3" id="secret-div" style="display: none;">
-                    <label class="form-label">Alarm Date&Time</label>
-                    <input type="datetime-local" class="form-control" name="remember_date">
-                </div>
-                <script>
-                    function toggleDiv() {
-                        var checkbox = $('#flexSwitchCheckDefault');
-                        var div = $('#secret-div');
-                        if (checkbox.prop('checked')) {
-                            div.show();
-                        } else {
-                            div.hide();
-                        }
-                    }
-                </script-->
             <br>
-            <button type="submit" class="btn btn-success bg-success">Submit</button>
+            <button type="submit" class="btn btn-success bg-success">Add Note</button>
             <input type="reset" value="Reset" class="btn btn-danger bg-danger"/>
         </form>
     </div>

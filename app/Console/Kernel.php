@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('inspire')->();
         $schedule->command('deadline:reminder')
             ->everyMinute()
-            ->runInBackground();;
+            ->runInBackground();
     }
 
     /**

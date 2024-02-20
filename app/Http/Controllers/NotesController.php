@@ -66,7 +66,7 @@ class NotesController extends Controller
 
         session()->flash('successS', "Succesfull Store: $request->title");
 
-        return redirect('/note-s');
+        return redirect('/notes');
     }
 
     /**
@@ -107,7 +107,7 @@ class NotesController extends Controller
 
         session()->flash('successU', "Succesfull Update: $request->title");
 
-        return redirect('/note-s');
+        return redirect('/notes');
     }
 
     /**
@@ -124,7 +124,7 @@ class NotesController extends Controller
         session()->flash('successD', "Succesfull Destroy: $note->title");
         $deleted_note = $note;
 
-        return redirect('/note-s')->with('deleted_note', $deleted_note);
+        return redirect('/notes')->with('deleted_note', $deleted_note);
     }
 
     /*

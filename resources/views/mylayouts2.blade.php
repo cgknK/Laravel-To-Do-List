@@ -19,7 +19,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('note-s.index')" :active="request()->routeIs('note-s.index')" method="GET">
+                    <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index')" method="GET">
                         {{ __('Notes/ToDo List') }}
                     </x-nav-link>
                 </div>

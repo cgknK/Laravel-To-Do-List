@@ -24,7 +24,7 @@ Route::get('/', function () {
 //Notes
 //Route::get('/', [\App\Http\Controllers\NotesController::class, 'welcome']);
 Route::get('/', function () {
-    return view('welcome');
+    return view('/auth/login');
 });
 
 Route::get('/dashboard', function () {
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 //Yer uygunluğuna bak
-Route::resource('note-s', \App\Http\Controllers\NotesController::class);
+Route::resource('notes', \App\Http\Controllers\NotesController::class);
 /*
 Route::get('/note-s', [NotesController::class, 'index'])->name('note-s.index');
 Route::get('/note-s/create', [NotesController::class, 'create'])->name('note-s.create');

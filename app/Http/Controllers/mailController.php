@@ -22,6 +22,7 @@ class mailController extends Controller
 
             //$name = Auth::user()->name;
             $title = "$title_ Alarm: $deadlineTime";
+            // backslashN yerine br mi koymak lazım
             $body = "Hello Dear $name\n\nYour $title_ alarm...\nLink\n\nBest,\nAppName";
 
             //$email = $this->getEmail();

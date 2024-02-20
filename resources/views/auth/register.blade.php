@@ -44,6 +44,10 @@
                 {{ __('Already registered?') }}
             </a>
 
+            <x-primary-button class="ms-3" type="button" onclick="window.location='{{ route('login') }}'">
+                <!-- x-primary-button class="ms-3" onclick="location.href='{{ route('login') }}'" -->
+                {{ __('Log in') }}
+            </x-primary-button>
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>

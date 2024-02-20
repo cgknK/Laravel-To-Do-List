@@ -34,7 +34,7 @@
             </div>
             @endif
         </form>
-        <form action="{{route('note-s.destroy', $note->id)}}" method="POST">
+        <form action="{{route('notes.destroy', $note->id)}}" method="POST">
             <!-- bunlar dekaratör mü -->
             @csrf
             @method("DELETE")
