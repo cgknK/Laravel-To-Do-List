@@ -1,16 +1,9 @@
 @extends('mylayout')
 @section('content')
-    <!--script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet"-->
-
-    <br>
-    <br>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
-                <div class="container">
+                <div-- class="container">
                     <form action="{{route("notes.store")}}" method="POST">
                         <!-- post belirtilmeseydi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                         @csrf
@@ -18,11 +11,31 @@
                             <label class="form-label">Title</label>
                             <input type="text" class="form-control" name="title">
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <!--input type="text" class="form-control form-control-lg" name="description"-->
-                            <textarea type="text" class="form-control" name="description" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" required></textarea>
+                        <!-- https://getbootstrap.com/docs/5.3/forms/validation/#how-it-works -->
+
+                        <div class="mb-3 was-validated">
+                            <label for="validationTextarea" class="form-label">Description</label>
+                            <textarea type="text" class="form-control" name="description" id="floatingTextarea2" placeholder="Required, leave a comment here" style="height: 100px; '*';" required></textarea>
+                            <div class="invalid-feedback">
+                                Please enter a message in the textarea.
+                            </div>
                         </div>
+                        <!--div class="mb-3">
+                            <label for="validationTextarea" class="form-label">Description</label>
+                            {{--@if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif--}}
+                            <textarea type="text" class="form-control" name="description" id="floatingTextarea2" style="height: 100px; '*';"></textarea>
+                            <div class="invalid-feedback">
+                                Please enter a message in the textarea.
+                            </div>
+                        </div-->
 
                         <div class="form-check form-switch" >
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="is_remember" style="cursor: pointer">
@@ -54,24 +67,24 @@
                             var checkbox = document.getElementById("flexSwitchCheckDefault");
                             var div = document.getElementById("secret-div");
 
-                            checkbox.addEventListener("change", function() {
+                            function toggleAlarmInput() {
                                 div.style.display = checkbox.checked ? "block" : "none";
                                 getTime();
-                            });
-                        </script>
+                            }
+                            checkbox.addEventListener("change", toggleAlarmInput);
 
+                            var reset = document.getElementById('resetButton');
+                            reset.addEventListener("click", function () {
+                                toggleAlarmInput();
+                                div.style.display = "none";
+                            })
+                        </script>
                         <br>
                         <button type="submit" class="btn btn-success bg-success"><i class="bi bi-floppy"></i></button>
-                        <button type="reset" class="btn btn-info bg-info"><i class="bi bi-arrow-clockwise"></i></button>
+                        <button type="reset" id="resetButton" class="btn btn-info bg-info"><i class="bi bi-arrow-clockwise"></i></button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <!--script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet"-->
 @endsection

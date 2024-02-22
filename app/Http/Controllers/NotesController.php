@@ -45,14 +45,6 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = [
-            'description.required' => 'min 1 chr, pls.',
-        ];
-
-        $request = $request->validate([
-            'description' => 'required|string|min:1',
-        ], $messages);
-
         $request->merge(['note_user_id' => Auth::id()]);
         if ($request->input('is_remember') ==  "on") {
             $request->merge(['is_remember' => 1]);
@@ -60,6 +52,23 @@ class NotesController extends Controller
         else {
             $request->merge(['is_remember' => 0]);
         }
+
+        $messages = [
+            'description.required' => 'min 1 chr, pls.',
+        ];
+
+        $validate_data = $request->validate([
+            'description' => 'required|string|min:1',
+            //'is_remember' => 'in:0,1',
+        ], $messages);
+
+        /*
+         * $request->merge([
+            'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
+        ]);
+         */
+
+
 
         /*
         $validated = request()->validate([
