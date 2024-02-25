@@ -1,20 +1,67 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 @extends('mylayout')<!-- mylayout or layout -->
 @section('content')
+
+    <br>
+    <div class="modal-like-container" id="popover-content">
+        <div class="modal-like">
+            <div class="modal-like-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" aria-label="Close">×</button>
+            </div>
+            <div class="modal-like-body">
+                <p>title del</p>
+            </div>
+            <div class="modal-like-footer">
+                <button type="button" class="btn btn-secondary bg-secondary m-1 mx-1" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger bg-danger">OK</button>
+            </div>
+        </div>
+        <div class="modal-like-overlay"></div>
+    </div>
+
     <style>
         .my-red-left-border {
             border-left: 1px solid #fa0219;
         }
+        .popover-header {
+            color: red;
+        }
     </style>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
+            <div class="text-gray-900">
                 @if (session()->has('successS'))
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                {{-- <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> --}}
+                                <rect width="100%" height="100%" fill="#007aff"></rect>
+                                <strong class="me-auto text-success">{{ session()->get('successS')[0]}}</strong>
+                                <small>Created: {{ session('successS')[1] }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Title: {{ session('successS')[2] }}
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        const toastLiveStore = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastLiveStore);
+                        toast.show();
+                    </script>
+
+                    {{--
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session()->get('successS')}}
+                        {{ session()->get('successS') }}
                         <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
+                    --}}
                 @elseif(session()->has('successU'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session()->get('successU') }}
@@ -39,17 +86,17 @@
             </div>
             <div class="card">
                 <div class="card-header" style="display: flex; justify-content: flex-end;">
-                    <a href="{{route("notes.create")}}" type="button" class="btn btn-success bg-success"><i class="bi bi-plus-square-fill"></i></a>
+                    <a href="{{  route("notes.create")  }}" type="button" class="btn btn-success bg-success"><i class="bi bi-plus-square-fill"></i></a>
                 </div>
                 <div class="card-body">
                     <table id="myTable" class="table table-striped" style="width: 100%;" >
                         <thead>
                             <tr>
-                                <th class="col-md-1" scope="col">No</th>
+                                <th class="col-md-1 text-sm-center" scope="col">No</th>
                                 <th class="col-md-2" scope="col">Title</th>
                                 <th class="col-md-3" scope="col">Description</th>
                                 <th class="col-md-2 text-sm-center" scope="col">User Name</th>
-                                <th class="col-md-1" scope="col">Alarm</th>
+                                <th class="col-md-1 text-sm-center" scope="col">Alarm</th>
                                 <th class="col-md-2" scope="col">Reminder Time</th>
                                 <th class="col-md-1" scope="col" colspan="3" style="text-align: center;">Actions</th>
                                 <!-- bu neden colspan 3 değil de 4 de tam oturuyor -->
@@ -57,16 +104,43 @@
                         </thead>
                         <tbody>
                         @foreach($one_user_notes as $note)
-                            <!--tr class="{{-- $note->deleted_at == null && $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) <= date('Y-m-d H:i') ? 'border border-left-danger outline outline-danger' : '' --}}"-->
+                            @php
+                                //$limitedDescription = Str::of($note->description, 100, '...')->limit(10);
+                                //$len = 27;
+                                $len = 20;
+                                $limitedDescription = substr($note->description, 0, $len);
+                                if (strlen($note->description) > $len) {
+                                    $limitedDescription .= "...";
+                                }
+                            @endphp
+                            @if($note->title == "Non dolore elit aut")
+                                <p>{{ $limitedDescription }}</p>
+                            @endif
+                                <!--tr class="{{-- $note->deleted_at == null && $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) <= date('Y-m-d H:i') ? 'border border-left-danger outline outline-danger' : '' --}}"-->
                             <tr class="{{ $note->deleted_at == null && $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) <= date('Y-m-d H:i') ? 'my-red-left-border' : '' }}">
-                                <th scope="col" scope="row">{{$note->id}}</th>
+                                <th class="text-sm-center" scope="col" scope="row">{{$note->id}}</th>
                                 <td>{{$note->title}}</td>
                                 <!--td style="width: 750px;word-wrap: break-word;">{{--$note->description--}}</td-->
-                                <td>{{$note->description}}</td>
-                                <td class="align-middle text-sm-center bg-danger">{{$note->user->name}}</td>
+                                <style>
+                                    :root {
+                                        --#{$prefix}tooltip-max-width: 800px;
+                                        --#{$prefix}tooltip-color: #00f;
+                                        --#{$prefix}tooltip-bg: #000;
+                                    }
+                                </style>
+                                <td class="description-cell">
+                                    <div class="description-container">
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
+                                            {{-- Str::words($note->description, 5, '...') --}}
+                                            {{ $limitedDescription }}
+                                        </span>
+                                    </div>
+                                </td>
+                                {{-- <td>{{ Str::limit($note->description, 300, '...') }}</td> --}}
+                                <td class="text-sm-center">{{$note->user->name}}</td>
                                 @if($note->is_remember == 0)
                                     <td>
-                                        <div class="custom-control custom-switch">
+                                        <div class="custom-control custom-switch text-sm-center">
                                             <input type="checkbox" class="custom-control-input" id="customSwitch1" disabled>
                                             <label class="custom-control-label" for="customSwitch1"></label>
                                             <!-- Gizli alan ekleyin -->
@@ -75,7 +149,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <div class="custom-control custom-switch">
+                                        <div class="custom-control custom-switch align-middle text-sm-center">
                                             <input type="checkbox" class="custom-control-input" id="customSwitch1" checked disabled>
                                             <label class="custom-control-label" for="customSwitch1"></label>
                                             <!-- Gizli alan ekleyin -->
@@ -100,7 +174,10 @@
                                         <!-- bunlar dekaratör mü -->
                                         @csrf
                                         @method("DELETE")
-                                        <button type="submit" class="btn btn-danger bg-danger"><i class="bi bi-trash"></i></button>
+                                        <!--button type="button" class="btn btn-danger bg-danger example-popover" data-bs-html=“true” data-bs-toggle="popover" data-bs-title="Attention: Delete" data-bs-content=""><i class="bi bi-trash" ></i></button-->
+                                        <button type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
+                                        {{-- <button type="button" class="btn btn-danger bg-danger" data-dismiss="click" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button> --}}
+                                        {{-- <!--button type="submit" style="display: none" id="delete">bu yazi gorunmemelidir</button--> --}}
                                     </form>
                                 </td>
                             </tr>
@@ -132,6 +209,12 @@
             }
         });
         */
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
     </script>
     <script>
         $(document).ready(function(){

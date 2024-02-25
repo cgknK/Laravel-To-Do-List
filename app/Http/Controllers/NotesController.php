@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use MongoDB\Driver\Session;
 
 class NotesController extends Controller
 {
@@ -67,9 +70,6 @@ class NotesController extends Controller
             'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
         ]);
          */
-
-
-
         /*
         $validated = request()->validate([
             'title' => 'required_without:description',
@@ -77,11 +77,13 @@ class NotesController extends Controller
         ]);
         */
 
-        //dd($request);
-        Note::create($request->all());
+        //try catch
+        $created_note = Note::create($request->all());
         //Note::create($validated);
 
-        session()->flash('successS', "Succesfull Store: $request->title");
+        //session()->flash('successS', "Succesfull Store: $created_note->created_at");
+        session()->flash('successS',
+            ["Successfull Store", "$created_note->created_at", "$created_note->title"]);
 
         return redirect('/notes');
     }
