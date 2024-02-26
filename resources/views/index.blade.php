@@ -78,6 +78,26 @@
                         </button>
                     </div>
                 @elseif(session()->has('successD'))
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                {{-- <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> --}}
+                                <rect width="100%" height="100%" fill="#007aff"></rect>
+                                <strong class="me-auto text-success">{{ session('deleted_note') }}</strong>
+                                <small>Created: {{ session('deleted_note') }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Title: {{ session('deleted_note') }}
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        const toastLiveStore = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastLiveStore);
+                        toast.show();
+                    </script>
+                    <br>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session()->get('successD') }}<br>
                         <span id="more-content" style="display: none;">{{ session('deleted_note') }}</span>
@@ -106,7 +126,7 @@
                                 <th class="col-md-2 text-sm-center" scope="col">User Name</th>
                                 <th class="col-md-1 text-sm-center" scope="col">Alarm</th>
                                 <th class="col-md-2" scope="col">Reminder Time</th>
-                                <th class="col-md-1" scope="col" colspan="3" style="text-align: center;">Actions</th>
+                                <th class="col-md-1" scope="col" colspan="4" style="text-align: center;">Actions</th>
                                 <!-- bu neden colspan 3 değil de 4 de tam oturuyor -->
                             </tr>
                         </thead>
@@ -187,36 +207,24 @@
                                         <div class="modal" id="myModal">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-
-                                                    <!-- Modal Header -->
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Attention: Delete</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        <button type="button" class="btn btn-close" data-bs-dismiss="modal">X</button>
                                                     </div>
-
-                                                    <!-- Modal body -->
                                                     <div class="modal-body">
                                                         Are you sure; delete {{  $note->title  }}: {{ $limitedDescription }}
                                                     </div>
-
-                                                    <!-- Modal footer -->
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary bg-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-danger bg-danger" data-bs-dismiss="modal">Delete</button>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
-                                    <!--script>
-                                        $('.popover-like-footer .btn-danger').click(function () {
-                                            //const popover = bootstrap.Popover.getInstance($(this).closest('.popover').get(0)) // Get the current popover instance
-                                            //popover.hide(); // Close the popover
-                                            //$(this).closest('form').submit(); // Submit the form
-                                            $('#delete-submit-{{$note->id}}').click();
-                                        });
-                                    </script-->
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary bg-secondary" data-bs-dismiss="modal"><i class="bi bi-clipboard"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -237,11 +245,6 @@
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        /*
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-        */
-
         $(document).ready(function(){
             $("#more-button").click(function(){
                 $("#more-content").toggle();
@@ -261,17 +264,6 @@
                     }
                 }
             });
-
-        /*
-            // Add a click event listener to the OK button within the popover
-            $(document).on('click', '.popover-like-footer .btn-danger[data-form-id]', function(){
-                // Form kimliğini veri özelliğinden al
-                const formId = $(this).data('form-id');
-                // Formu kimliğini kullanarak gönder
-                $('#' + formId).submit();
-            });
-            */
         });
-
     </script>
 @endsection

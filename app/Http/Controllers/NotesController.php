@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReminderSetEvent;
 use App\Models\Note;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
@@ -15,7 +16,6 @@ class NotesController extends Controller
      * Display a listing of the resource.
      */
 
-    //validate() eklenecek
     public function index()
     {
         $one_user_notes = Note::whereNull('deleted_at')
@@ -81,7 +81,8 @@ class NotesController extends Controller
         $created_note = Note::create($request->all());
         //Note::create($validated);
 
-        //session()->flash('successS', "Succesfull Store: $created_note->created_at");
+        event(new ReminderSetEvent($created_note));
+
         session()->flash('successS',
             ["Successfull Store", "$created_note->created_at", "$created_note->title"]);
 
