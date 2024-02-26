@@ -3,7 +3,7 @@
 @endphp
 @extends('mylayout')<!-- mylayout or layout -->
 @section('content')
-
+    {{--
     <br>
     <div class="modal-like-container" id="popover-content">
         <div class="modal-like">
@@ -21,6 +21,7 @@
         </div>
         <div class="modal-like-overlay"></div>
     </div>
+    --}}
 
     <style>
         .my-red-left-border {
@@ -28,6 +29,13 @@
         }
         .popover-header {
             color: red;
+        }
+    </style>
+    <style>
+        :root {
+            --#{$prefix}tooltip-max-width: 800px;
+            --#{$prefix}tooltip-color: #00f;
+            --#{$prefix}tooltip-bg: #000;
         }
     </style>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -113,7 +121,7 @@
                                     $limitedDescription .= "...";
                                 }
                             @endphp
-                            @if($note->title == "Non dolore elit aut")
+                            @if(0 && $note->title == "Non dolore elit aut")
                                 <p>{{ $limitedDescription }}</p>
                             @endif
                                 <!--tr class="{{-- $note->deleted_at == null && $note->is_remember && date('Y-m-d H:i', strtotime($note->remember_date)) <= date('Y-m-d H:i') ? 'border border-left-danger outline outline-danger' : '' --}}"-->
@@ -121,13 +129,6 @@
                                 <th class="text-sm-center" scope="col" scope="row">{{$note->id}}</th>
                                 <td>{{$note->title}}</td>
                                 <!--td style="width: 750px;word-wrap: break-word;">{{--$note->description--}}</td-->
-                                <style>
-                                    :root {
-                                        --#{$prefix}tooltip-max-width: 800px;
-                                        --#{$prefix}tooltip-color: #00f;
-                                        --#{$prefix}tooltip-bg: #000;
-                                    }
-                                </style>
                                 <td class="description-cell">
                                     <div class="description-container">
                                         <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
@@ -170,15 +171,52 @@
                                 <td><a href="{{  route('notes.edit', $note->id)  }}" type="button" class="btn btn-warning bg-warning"><i class="bi bi-pencil"></i></a> </td>
                                 <td>
                                     <!-- note-s nerden ch -->
-                                    <form action="{{  route('notes.destroy', $note->id)  }}" method="POST">
+                                    <form action="{{  route('notes.destroy', $note->id)  }}" method="POST" id="delete-form-{{$note->id}}">
                                         <!-- bunlar dekaratör mü -->
                                         @csrf
                                         @method("DELETE")
+                                        {{--
                                         <!--button type="button" class="btn btn-danger bg-danger example-popover" data-bs-html=“true” data-bs-toggle="popover" data-bs-title="Attention: Delete" data-bs-content=""><i class="bi bi-trash" ></i></button-->
-                                        <button type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
-                                        {{-- <button type="button" class="btn btn-danger bg-danger" data-dismiss="click" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button> --}}
-                                        {{-- <!--button type="submit" style="display: none" id="delete">bu yazi gorunmemelidir</button--> --}}
+                                        <button type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a class='btn btn-danger bg-danger m-1 mx-1' data-form-id='delete-form-{{ $note->id }}'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
+                                        <!--button data-bs-target="#popover-{{$note->id}}" type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='button' class='btn btn-danger bg-danger m-1 mx-1' data-form-id='delete-form-{{$note->id}}'>OK</a></div></div>"><i class="bi bi-trash"></i></button-->
+                                        <button type="button" class="btn btn-danger bg-danger" data-dismiss="click" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
+                                        --}}
+                                        <button type="button" class="btn btn-danger bg-danger" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-trash"></i></button>
+                                        <button type="submit" class="btn btn-outline-light" style="display: none" id="delete-submit-{{$note->id}}">bu yazi gorunmemelidir</button>
+                                        <!-- The Modal -->
+                                        <div class="modal" id="myModal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Attention: Delete</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Are you sure; delete {{  $note->title  }}: {{ $limitedDescription }}
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary bg-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger bg-danger" data-bs-dismiss="modal">Delete</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
+                                    <!--script>
+                                        $('.popover-like-footer .btn-danger').click(function () {
+                                            //const popover = bootstrap.Popover.getInstance($(this).closest('.popover').get(0)) // Get the current popover instance
+                                            //popover.hide(); // Close the popover
+                                            //$(this).closest('form').submit(); // Submit the form
+                                            $('#delete-submit-{{$note->id}}').click();
+                                        });
+                                    </script-->
                                 </td>
                             </tr>
                         @endforeach
@@ -189,34 +227,21 @@
         </div>
     </div>
     <script>
+        const myModal = document.getElementById('myModal')
+        const myInput = document.getElementById('myInput')
 
-        $(document).ready(function () {
-            $('#myTable').DataTable({
-                layout: {
-                    topStart: {
-                        buttons: ['copy', 'excel', 'pdf', 'colvis']
-                    }
-                }
-            });
-        });
+        myModal.addEventListener('shown.bs.modal', () => {
+            myInput.focus()
+        })
 
-        /*
-        new DataTable('#myTable', {
-            layout: {
-                topStart: {
-                    buttons: ['copy', 'excel', 'pdf', 'colvis']
-                }
-            }
-        });
-        */
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+        /*
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        */
 
-    </script>
-    <script>
         $(document).ready(function(){
             $("#more-button").click(function(){
                 $("#more-content").toggle();
@@ -228,6 +253,25 @@
                     $("#more-button").removeClass("d-block");
                 }
             });
+
+            $('#myTable').DataTable({
+                layout: {
+                    topStart: {
+                        buttons: ['copy', 'excel', 'pdf', 'colvis']
+                    }
+                }
+            });
+
+        /*
+            // Add a click event listener to the OK button within the popover
+            $(document).on('click', '.popover-like-footer .btn-danger[data-form-id]', function(){
+                // Form kimliğini veri özelliğinden al
+                const formId = $(this).data('form-id');
+                // Formu kimliğini kullanarak gönder
+                $('#' + formId).submit();
+            });
+            */
         });
+
     </script>
 @endsection
