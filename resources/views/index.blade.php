@@ -106,7 +106,7 @@
                                 <th class="col-md-2 text-sm-center" scope="col">User Name</th>
                                 <th class="col-md-1 text-sm-center" scope="col">Alarm</th>
                                 <th class="col-md-2" scope="col">Reminder Time</th>
-                                <th class="col-md-1" scope="col" colspan="4" style="text-align: center;">Actions</th>
+                                <th class="col-md-1" scope="col" colspan="3" style="text-align: center;">Actions</th>
                                 <!-- bu neden colspan 3 değil de 4 de tam oturuyor -->
                             </tr>
                         </thead>
@@ -131,7 +131,7 @@
                                 <!--td style="width: 750px;word-wrap: break-word;">{{--$note->description--}}</td-->
                                 <td class="description-cell" role="button">
                                     <div class="description-container">
-                                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
+                                        <span class="copy-button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
                                             {{-- Str::words($note->description, 5, '...') --}}
                                             {{ $limitedDescription }}
                                         </span>
@@ -201,11 +201,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                </td>
-                                <td>
-                                   <button type="button" class="btn btn-secondary bg-secondary copy-button" data-id="{{ $note->id }}">
-                                        <i class="bi bi-clipboard"></i>
-                                   </button>
                                 </td>
                             </tr>
                         @endforeach
