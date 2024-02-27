@@ -1,28 +1,8 @@
 @php
     use Illuminate\Support\Str;
 @endphp
-@extends('mylayout')<!-- mylayout or layout -->
+@extends('mylayout')
 @section('content')
-    {{--
-    <br>
-    <div class="modal-like-container" id="popover-content">
-        <div class="modal-like">
-            <div class="modal-like-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="btn-close" aria-label="Close">×</button>
-            </div>
-            <div class="modal-like-body">
-                <p>title del</p>
-            </div>
-            <div class="modal-like-footer">
-                <button type="button" class="btn btn-secondary bg-secondary m-1 mx-1" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger bg-danger">OK</button>
-            </div>
-        </div>
-        <div class="modal-like-overlay"></div>
-    </div>
-    --}}
-
     <style>
         .my-red-left-border {
             border-left: 1px solid #fa0219;
@@ -112,7 +92,7 @@
                     </div>
                 @endif
             </div>
-            <div class="card">
+            <div class="card overflow-auto">
                 <div class="card-header" style="display: flex; justify-content: flex-end;">
                     <a href="{{  route("notes.create")  }}" type="button" class="btn btn-success bg-success"><i class="bi bi-plus-square-fill"></i></a>
                 </div>
@@ -149,7 +129,7 @@
                                 <th class="text-sm-center" scope="col" scope="row">{{$note->id}}</th>
                                 <td>{{$note->title}}</td>
                                 <!--td style="width: 750px;word-wrap: break-word;">{{--$note->description--}}</td-->
-                                <td class="description-cell">
+                                <td class="description-cell" role="button">
                                     <div class="description-container">
                                         <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
                                             {{-- Str::words($note->description, 5, '...') --}}
@@ -199,7 +179,6 @@
                                         <!--button type="button" class="btn btn-danger bg-danger example-popover" data-bs-html=“true” data-bs-toggle="popover" data-bs-title="Attention: Delete" data-bs-content=""><i class="bi bi-trash" ></i></button-->
                                         <button type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a class='btn btn-danger bg-danger m-1 mx-1' data-form-id='delete-form-{{ $note->id }}'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
                                         <!--button data-bs-target="#popover-{{$note->id}}" type="button" class="btn btn-danger bg-danger" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='button' class='btn btn-danger bg-danger m-1 mx-1' data-form-id='delete-form-{{$note->id}}'>OK</a></div></div>"><i class="bi bi-trash"></i></button-->
-                                        <button type="button" class="btn btn-danger bg-danger" data-dismiss="click" data-bs-toggle="popover" data-bs-html="true" data-bs-title="Attention: Delete" data-bs-content="<div class='modal-like'><div class='modal-like-body'><p>{{ $note->title }}: {{ Str::words($note->description, 20, '...') }}</p></div><div class='modal-like-footer'><a type='button' class='btn btn-secondary bg-secondary m-1 mx-1'>Close</a><a type='submit' class='btn btn-danger bg-danger m-1 mx-1'>OK</a></div></div>"><i class="bi bi-trash"></i></button>
                                         --}}
                                         <button type="button" class="btn btn-danger bg-danger" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-trash"></i></button>
                                         <button type="submit" class="btn btn-outline-light" style="display: none" id="delete-submit-{{$note->id}}">bu yazi gorunmemelidir</button>
@@ -224,7 +203,9 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary bg-secondary" data-bs-dismiss="modal"><i class="bi bi-clipboard"></i></button>
+                                   <button type="button" class="btn btn-secondary bg-secondary copy-button" data-id="{{ $note->id }}">
+                                        <i class="bi bi-clipboard"></i>
+                                   </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -263,6 +244,21 @@
                         buttons: ['copy', 'excel', 'pdf', 'colvis']
                     }
                 }
+            });
+        });
+
+        const copyButtons = document.querySelectorAll('.copy-button');
+
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const rowNode = $(button).closest('tr');
+                const table = $('#myTable').DataTable();
+                const rowData = table.row(rowNode).data();
+                navigator.clipboard.writeText(JSON.stringify(rowData)).then(() => {
+                    console.log('Row data copied!');
+                }, () => {
+                    console.error('Failed to copy row data!');
+                });
             });
         });
     </script>
