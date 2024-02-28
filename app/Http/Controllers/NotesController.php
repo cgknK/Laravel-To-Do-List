@@ -61,9 +61,14 @@ class NotesController extends Controller
         ];
 
         $validate_data = $request->validate([
-            'description' => 'required|string|min:1',
+            'description' => 'required|string|between:1,99999',
             //'is_remember' => 'in:0,1',
         ], $messages);
+        //dd($validate_data);
+        $sanitizedDesc = htmlspecialchars($validate_data['description']);
+        //diğerleri ???
+        //$sanitizedXxx = htmlspecialchars($validate_data['description']);
+
 
         /*
          * $request->merge([
