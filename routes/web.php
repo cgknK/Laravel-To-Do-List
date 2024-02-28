@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 //Yer uygunluğuna bak
-Route::resource('notes', \App\Http\Controllers\NotesController::class);
+Route::resource('notes', \App\Http\Controllers\NotesController::class)->middleware(['auth', 'verified']);;
 /*
 Route::get('/note-s', [NotesController::class, 'index'])->name('note-s.index');
 Route::get('/note-s/create', [NotesController::class, 'create'])->name('note-s.create');
@@ -56,5 +56,6 @@ Route::delete('/note-s/{note}', [NotesController::class, 'destroy'])->name('note
  */
 
 //Route::get('e-mail', 'ckk.devtest@gmail.com');
+//oto mailler için buna gerek varmı?
 Route::get('/send-welcome-email', [mailController::class, 'send'])->name('email.send');
 //Route::post('/send-email', [mailController::class, 'send'])->name('email.post');

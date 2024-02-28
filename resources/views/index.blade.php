@@ -129,14 +129,44 @@
                                 <th class="text-sm-center" scope="col" scope="row">{{$note->id}}</th>
                                 <td>{{$note->title}}</td>
                                 <!--td style="width: 750px;word-wrap: break-word;">{{--$note->description--}}</td-->
-                                <td class="description-cell" role="button">
+                                <td class="description-cell" role="button" data-fullDescription="{{ $note->description }}">
                                     <div class="description-container">
-                                        <span class="copy-button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
-                                            {{-- Str::words($note->description, 5, '...') --}}
+                                        <span class="copy-button" onclick="myFunction()" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="{{ $note->description }}">
                                             {{ $limitedDescription }}
                                         </span>
                                     </div>
                                 </td>
+                                <script>
+                                    window.APP_DEBUG = @json(env('APP_DEBUG'));
+                                    function myFunction() {
+                                        /*
+                                        // Get the text field
+                                        let copyText = document.querySelector(".copy-button");
+                                        console.log(copyText);
+                                        // Select the text field
+                                        let fullDescription = copyText.dataset.fullDescription;
+                                        console.log(fullDescription);
+
+                                        // Copy the text inside the text field
+                                        navigator.clipboard.writeText(fullDescription);
+
+                                        // Alert the copied text
+                                        alert("Copied the text: " + fullDescription);
+                                         */
+                                        // Get the HTML element
+                                        let copyText = document.querySelector(".copy-button");
+                                        console.log(copyText);
+                                        // Get the original title from the dataset
+                                        let originalTitle = copyText.dataset.bsOriginalTitle;
+                                        console.log(originalTitle);
+                                        // Copy the original title to the clipboard
+                                        navigator.clipboard.writeText(originalTitle);
+                                        if ( window.APP_DEBUG ) {
+                                            // Alert the copied text
+                                            alert("DEBUG=True - Copied the text: " + originalTitle);
+                                        }
+                                    }
+                                </script>
                                 {{-- <td>{{ Str::limit($note->description, 300, '...') }}</td> --}}
                                 <td class="text-sm-center">{{$note->user->name}}</td>
                                 @if($note->is_remember == 0)
@@ -242,19 +272,85 @@
             });
         });
 
-        const copyButtons = document.querySelectorAll('.copy-button');
+        /*
+        const descriptionCells = document.querySelectorAll('.description-cell');
 
-        copyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const rowNode = $(button).closest('tr');
-                const table = $('#myTable').DataTable();
-                const rowData = table.row(rowNode).data();
-                navigator.clipboard.writeText(JSON.stringify(rowData)).then(() => {
-                    console.log('Row data copied!');
-                }, () => {
-                    console.error('Failed to copy row data!');
+        descriptionCells.forEach(cell => {
+            const copyButton = cell.querySelector('.copy-button');
+
+            if (copyButton) {
+                copyButton.addEventListener('click', async () => {
+                    const fullDescription = cell.dataset.fullDescription;
+                    console.log(fullDescription);
+
+                    if (fullDescription) {
+                        try {
+                            await navigator.clipboard.writeText(fullDescription);
+                            console.log('Tam açıklama kopyalandı!');
+                        } catch (error) {
+                            console.error('Tam açıklama kopyalama başarısız:', error);
+                        }
+                    } else {
+                        console.error('Tam açıklama verisi bulunamadı!');
+                    }
                 });
-            });
+            }
         });
+         */
+
+        /*
+        const descriptionCells = document.querySelectorAll('.description-cell');
+
+        descriptionCells.forEach(cell => {
+            const copyButton = cell.querySelector('.copy-button');
+
+            if (copyButton) {
+                copyButton.addEventListener('click', async () => {
+                    //const fullDescription = cell.dataset.fullDescription;
+                    const fullDescription = cell.dataset.fullDescription
+                    console.log(fullDescription.length > 0);
+
+                    if (fullDescription || !fullDescription) {
+                        try {
+                            await navigator.clipboard.writeText(fullDescription);
+                            console.log('Tam açıklama kopyalandı!');
+                        } catch (error) {
+                            console.error('Tam açıklama kopyalama başarısız:', error);
+                        }
+                    } else {
+                        console.error('Tam açıklama verisi bulunamadı!');
+                    }
+                });
+            }
+        });
+
+         */
+
+        /*
+        const descriptionCells = document.querySelectorAll('.description-cell');
+
+        descriptionCells.forEach(cell => {
+            const copyButton = cell.querySelector('.copy-button');
+
+            if (copyButton) {
+                copyButton.addEventListener('click', async () => {
+                    //const fullDescription = cell.dataset.fullDescription;
+                    const fullDescription = cell.dataset.fullDescription
+                    console.log(fullDescription.length > 0);
+
+                    if (fullDescription && fullDescription.length > 0) {
+                        try {
+                            await navigator.clipboard.writeText(fullDescription);
+                            console.log('Tam açıklama kopyalandı!');
+                        } catch (error) {
+                            console.error('Tam açıklama kopyalama başarısız:', error);
+                        }
+                    } else {
+                        console.error('Tam açıklama verisi bulunamadı!');
+                    }
+                });
+            }
+        });
+         */
     </script>
 @endsection
