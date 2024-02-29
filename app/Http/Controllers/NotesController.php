@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use MongoDB\Driver\Session;
+use function PHPUnit\Framework\isEmpty;
 
 class NotesController extends Controller
 {
@@ -261,11 +262,36 @@ class NotesController extends Controller
         else {
             $request->merge(['is_remember' => 0]);
         }
+        //$is_remember = $request->input('is_remember') == "on" ? 1 : 0;
 
         $note = Note::findOrFail($id);
-        $note->update($request->all());
 
-        session()->flash('successU', "Succesfull Update: $request->title");
+        $note->update($request->all());
+        $note->save();
+        //dd($note->wasChanged('title'));
+        //dd($note->wasChanged());
+
+        //dd($request->all());
+
+        //remember_date ve gerekli ise deleted_at eklenecek
+        if ($note->wasChanged('title', 'description', 'is_remember')) {
+            $first = collect($note->getChanges())->first();
+            $last = collect($note->getChanges())->last();
+            session()->flash('successU', [
+                "Successful Update",
+                "$last",
+                "$request->title",
+                "$first",
+            ]);
+        //if ($note->isDirty($request_data)) {
+        //if ($note->isDirty('title') || $note->isDirty('description') || $note->isDirty('is_remember') || $note->isDirty('remember_date') || $note->isDirty('deleted_at')) {
+        }
+        else {
+            session()->flash('failU', [
+                "No Update",
+                "$request->title",
+            ]);
+        }
 
         return redirect('/notes');
     }
@@ -282,6 +308,11 @@ class NotesController extends Controller
 
         //birini kullanmak yeterli, best practice araştır
         session()->flash('successD', "Succesfull Destroy: $note->title");
+        session()->flash('successD', [
+            "Succesfull Destroy",
+            "$note->deleted_at",
+            "$note->title"
+        ]);
         $deleted_note = $note;
 
         return redirect('/notes')->with('deleted_note', $deleted_note);

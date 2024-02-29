@@ -51,17 +51,73 @@
                     </div>
                     --}}
                 @elseif(session()->has('successU'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session()->get('successU') }}
-                        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                {{-- <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> --}}
+                                <rect width="100%" height="100%" fill="#007aff"></rect>
+                                <strong class="me-auto text-success">{{ session()->get('successU')[0]}}</strong>
+                                <small>Update: {{ session('successU')[1] }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Title: {{ session('successU')[2] }}<br>
+                                Ch: {{ session('successU')[3] }}
+                            </div>
+                        </div>
                     </div>
+                    <script>
+                        const toastLiveStore = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastLiveStore);
+                        toast.show();
+                    </script>
+                @elseif(session()->has('failU')))
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                {{-- <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> --}}
+                                <rect width="100%" height="100%" fill="#007aff"></rect>
+                                <strong class="me-auto text-success">{{ session()->get('failU')[0]}}</strong>
+                                <small>Update: {{ session('failU')[0] }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Title: {{ session('failU')[1] }}<br>
+                                Fail: Unknow .d
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        const toastLiveStore = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastLiveStore);
+                        toast.show();
+                    </script>
                 @elseif(session()->has('successD'))
                     <div class="toast-container position-fixed top-0 end-0 p-3">
                         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
                                 {{-- <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> --}}
+                                <rect width="100%" height="100%" fill="#007aff"></rect>
+                                <strong class="me-auto text-success">{{ session()->get('successD')[0]}}</strong>
+                                <small>Destroy: {{ session('successD')[1] }}</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Title: {{ session('successD')[2] }}
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        const toastLiveStore = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastLiveStore);
+                        toast.show();
+                    </script>
+                {{--
+                    <p></p>
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                {{ <img src="http://www.w3.org/2000/svg" class="rounded me-2 green-box" alt="..."> }}
                                 <rect width="100%" height="100%" fill="#007aff"></rect>
                                 <strong class="me-auto text-success">{{ session('deleted_note') }}</strong>
                                 <small>Created: {{ session('deleted_note') }}</small>
@@ -84,12 +140,13 @@
                         <button id="more-button" type="button" class="btn btn-info bg-info mt-3">More...</button>
                         <!--button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span>
-                        {{-- session('deleted_note') --}}...Add-More/HideButton
+                        {{ session('deleted_note') }}...Add-More/HideButton
                         </button-->
                         <button id="close_button" type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
+    --}}
                 @endif
             </div>
             <div class="card overflow-auto">

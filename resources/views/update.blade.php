@@ -47,7 +47,7 @@
             </div>
             <div class="mb-3" id="secret-div" style="display: block;">
                 <label class="form-label">Alarm Date&Time</label>
-                <input type="datetime-local" class="form-control" name="remember_date" value="{{$note->remember_date}}">
+                <input type="datetime-local" class="form-control" name="remember_date" value="{{--$note->remember_date--}}">
             </div>
             <script>
                 $(document).ready(function() {
