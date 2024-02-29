@@ -40,6 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/*
+Route::middleware(['auth', 'verified', 'auth.session'])->group(function () {
+    Route::resource('notes', \App\Http\Controllers\NotesController::class)->middleware(['auth', 'verified']);;
+});
+*/
+
 require __DIR__.'/auth.php';
 
 //Yer uygunluğuna bak
