@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\ReminderSetEvent;
 use App\Models\Note;
+use Exception;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use MongoDB\Driver\Session;
 
 class NotesController extends Controller
@@ -48,50 +50,183 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->merge(['note_user_id' => Auth::id()]);
-        if ($request->input('is_remember') ==  "on") {
-            $request->merge(['is_remember' => 1]);
+        if(1){
+            if ($request->title == '+255'){
+                $rand = 1;
+                Log::info($request->title);
+                for ( $i=0; strlen($request->title)<=255; ++$i ) {
+                    $request->title .= "$i";
+                }
+                Log::info($request->title);
+                Log::info(strlen($request->title));
+                //$request->title = $sanitizedTitle;
+            }
+            else {
+                mt_srand();
+                $rand = mt_rand(0, 1);
+            }
+
+            // Sanitize input data
+            $sanitizedTitle = htmlspecialchars($request->title);
+            $sanitizedDesc = htmlspecialchars($request->description);
+            //$sanitizedIsRemember = htmlspecialchars($request->is_remember);//unness...
+            $sanitizedDate = htmlspecialchars($request->remember_date);
+
+            // Merge sanitized data with request
+            $request->merge([
+                'title' => $sanitizedTitle,
+                'description' => $sanitizedDesc,
+                'remember_date' => $sanitizedDate,
+                'note_user_id' => Auth::id(),
+                'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
+            ]);
+
+
+            // Validate input data
+            $messages = [
+                'title.string' => 'Başlık alanı bir metin olmalıdır.',
+                'title.max' => 'Başlık alanı 255 karakterden fazla olamaz.',
+                'description.required' => 'min 1 chr, pls.',
+                'is_remember.int' => 'Lütfen destek ile iletişimi geçiniz. Code:S01',
+            ];
+
+            /*
+             laravel 10.x
+            $validatedData = $request->validate([
+                'title' => ['required', 'unique:posts', 'max:255'],
+                'body' => ['required'],
+            ]);
+             */
+            if($rand){
+                $validate_data = $request->validate([
+                    'title' => 'string|max:255',
+                    'description' => 'required|string|between:1,99999',
+                    'note_user_id' => 'required|integer',
+                    'is_remember' => 'in:0,1',
+                    'remember_date'=> 'date',
+                ], $messages);
+            }
+            else {
+                $validate_data = $request->validate([
+                    'title' => 'string|max:255',
+                    'description' => 'required|string|between:1,99999',
+                    //'note_user_id' => 'required|integer',
+                    'is_remember' => 'between:0,1',
+                    'remember_date'=> 'nullable|date',
+                ], $messages);
+            }
+
+            // Try to create note and handle errors
+            try {
+                $created_note = Note::create($validate_data);
+
+                // Trigger reminder event
+                event(new ReminderSetEvent($created_note));
+
+                // Flash success message
+                session()->flash('successS', [
+                    "Successful Store",
+                    "$created_note->created_at",
+                    "$created_note->title"
+                ]);
+
+                // Redirect to notes page
+                return redirect('/notes');
+            } catch (Exception $e) {
+                // Log error message
+                Log::error($e->getMessage());
+
+                // Flash error message
+                return back()->withErrors(['errorS' => 'The note could not be created.']);
+            }
         }
         else {
-            $request->merge(['is_remember' => 0]);
-        }
+            $sanitizedIsRemember = htmlspecialchars($request->is_remember);
+            $request->merge(['note_user_id' => Auth::id()]);
 
-        $messages = [
-            'description.required' => 'min 1 chr, pls.',
-        ];
+            /*
+            if ($request->input('is_remember') ==  "on") {
+                $request->merge(['is_remember' => 1]);
+            }
+            else {
+                $request->merge(['is_remember' => 0]);
+            }
+            */
 
-        $validate_data = $request->validate([
-            'description' => 'required|string|between:1,99999',
-            //'is_remember' => 'in:0,1',
-        ], $messages);
-        //dd($validate_data);
-        $sanitizedDesc = htmlspecialchars($validate_data['description']);
-        //diğerleri ???
-        //$sanitizedXxx = htmlspecialchars($validate_data['description']);
+            $messages = [
+                'description.required' => 'min 1 chr, pls.',
+            ];
 
+            $validate_data = $request->validate([
+                'title' => 'string|max:255',
+                'description' => 'required|string|between:1,99999',
+                'remember_date'=> 'date',
+                //'date' => 'required|date_format:Y-m-d',
+                //'is_remember' => 'in:0,1',
+            ], $messages);
+            //dd($validate_data);
+            //dd($request);
+            $sanitizedTitle = htmlspecialchars($request->title);
+            $sanitizedDesc = htmlspecialchars($validate_data['description']);
+            //is_remember yukarıda, yeri sorunlu
+            $sanitizedTitle = htmlspecialchars($request->remember_date);
+            //dd($sanitizedDesc);
+            //diğerleri ???
+            //$sanitizedXxx = htmlspecialchars($validate_data['description']);
+            $request->merge([
+                'description' => $sanitizedDesc,
+            ]);
 
-        /*
-         * $request->merge([
-            'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
-        ]);
-         */
-        /*
-        $validated = request()->validate([
-            'title' => 'required_without:description',
-            'description' => 'required_without:title|email',
-        ]);
-        */
+            /*
+             * $request->merge([
+                'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
+            ]);
+             */
+            /*
+            $validated = request()->validate([
+                'title' => 'required_without:description',
+                'description' => 'required_without:title|email',
+            ]);
+            */
 
-        //try catch
-        $created_note = Note::create($request->all());
-        //Note::create($validated);
+            //try catch
+            //$created_note = Note::create($request->all());
+            $created_note = Note::create([
+                'title' => $request->title,
+                'description' => $sanitizedDesc,
+                'note_user_id' => Auth::id(),
+                'is_remember' => $request->input('is_remember') === 'on' ? 1 : 0,
+            ]);
+            /*
+             $query = DB::table('users')->insert([
+                'name' => $sanitizedName,
+                'email' => $sanitizedEmail,
+                'password' => $hashedPassword,
+            ]);
+             */
+            //Note::create($validated);
 
+            if ($created_note) {
+                event(new ReminderSetEvent($created_note));
+
+                session()->flash('successS',
+                    ["Successful Store", "$created_note->created_at", "$created_note->title"]);
+
+                return redirect('/notes');
+            } else {
+                // Not oluşturma sırasında hata yönetimi ekleyin (örn. doğrulama hataları, veritabanı bağlantı sorunları)
+                return back()->withErrors(['error' => 'Kullanıcı oluşturulamadı.']);
+            }
+            /*
         event(new ReminderSetEvent($created_note));
 
         session()->flash('successS',
             ["Successfull Store", "$created_note->created_at", "$created_note->title"]);
 
         return redirect('/notes');
+            */
+        }
+
     }
 
     /**
